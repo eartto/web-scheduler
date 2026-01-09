@@ -1,0 +1,20 @@
+.user-default-view {
+    color: black;
+}
+
+.image {
+    background-color: cadetblue;
+    display: block;
+    border: 1px;
+    height: 240px;
+    width: 360px;
+    margin-top: 10px;
+    justify-self: center;
+}
+
+.frame {
+    border: double 1px;
+    height: 510px;
+    width: 90vw;
+    justify-self: center;
+}
