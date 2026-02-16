@@ -2,6 +2,7 @@
   display: grid;
   width: 100vw;
   background-color: rgb(63, 63, 63);
+  justify-content: center;
 }
 
 .navi-panel {
@@ -9,7 +10,6 @@
   margin: 0;
   padding: 0;
   display: flex;
-  justify-self: left;
 }
 
 .navi-button {
@@ -17,7 +17,8 @@
   color: #f8f8fa;
   padding: 14px 16px;
   margin: 0 10px;
-  text-decoration: none;
+  white-space: nowrap;
+
 }
 .navi-button:hover {
   background-color: rgb(100, 100, 100);
@@ -29,8 +30,7 @@
   display: flex;
   color: #f8f8fa;
   flex-direction: column;
-  position: absolute;
-  right: 6px;
+  margin-left: 90px;
 }
 
 .user-text {

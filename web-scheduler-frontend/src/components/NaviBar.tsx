@@ -14,7 +14,7 @@ const NaviBar = () => {
         </a>
         <a className="navi-button">New Reservation</a>
         <a className="navi-button">Timetables</a>
-        <a className="navi-button">Create a Timetable</a>
+        <a className="navi-button" onClick={() => navigate('/createtimetable')}>Create a Timetable</a>
         <div className="navi-panel-user">
           <a className="user-text">Username</a>
           <a className="logout-button" onClick={() => navigate('/')}>

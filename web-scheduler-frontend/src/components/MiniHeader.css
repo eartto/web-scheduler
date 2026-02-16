@@ -22,6 +22,7 @@
 }
 
 .mini-header-text {
+  white-space: nowrap;
   align-self: flex-end;
   color: #f8f8fa;
 }
