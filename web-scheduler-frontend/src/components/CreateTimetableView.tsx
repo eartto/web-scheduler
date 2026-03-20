@@ -196,7 +196,6 @@ const CreateTimetableView = () => {
             className="name-input"
             autoFocus
             id="name"
-            autoComplete="on"
             placeholder="name"
             {...register('timetableName', {
               required: 'name required',

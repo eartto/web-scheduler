@@ -3,12 +3,14 @@ import express from 'express';
 const app = express();
 
 import logger from './utils/logger';
+import usersRouter from './routes/users'
 import timetablesRouter from './routes/timetables';
 
 app.use(express.static('build'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api/users', usersRouter);
 app.use('/api/timetables', timetablesRouter);
 
 app.listen(config.PORT, () => {

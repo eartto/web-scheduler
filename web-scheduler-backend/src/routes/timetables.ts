@@ -1,5 +1,6 @@
 import express from "express";
 import { Request, Response } from "express";
+import keygen from "../utils/keygen";
 
 const timetables: Array<object> = [];
 
@@ -10,8 +11,12 @@ timetablesRouter.get("/", (_req: Request, res: Response) => {
 });
 
 timetablesRouter.post("/", (req: Request, res: Response) => {
-  const timetable = req.body;
-  timetables.push(timetable)
+  // IMPLEMENT n IN THE KEYGEN WHEN DB IS IMPLEMENTED
+  const key = keygen.generateKey();
+  const timetable = { ...req.body, key };
+  console.log(timetable)
+  timetables.push(timetable);
+
   res.json(timetable);
 });
 
