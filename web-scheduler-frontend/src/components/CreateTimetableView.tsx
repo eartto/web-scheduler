@@ -7,14 +7,14 @@ import {
 import { ErrorMessage } from '@hookform/error-message';
 
 import type { Control } from 'react-hook-form';
-import type { FormInputs } from '../@types/formInputs';
 
 import './CreateTimetableView.css';
 import NaviBar from './NaviBar';
 import { useState } from 'react';
 import timetableService from '../services/timetableService';
+import type { TimetableFormInputs } from '../@types/createTimetable';
 
-const RestrictDuration = ({ control }: { control: Control<FormInputs> }) => {
+const RestrictDuration = ({ control }: { control: Control<TimetableFormInputs> }) => {
   const { register } = useFormContext();
   const restrictDuration = useWatch({
     control,
@@ -85,7 +85,7 @@ const RestrictDuration = ({ control }: { control: Control<FormInputs> }) => {
   }
 };
 
-const RestrictFrequency = ({ control }: { control: Control<FormInputs> }) => {
+const RestrictFrequency = ({ control }: { control: Control<TimetableFormInputs> }) => {
   const { register } = useFormContext();
   const restrictFrequency = useWatch({
     control,
@@ -160,7 +160,7 @@ const RestrictFrequency = ({ control }: { control: Control<FormInputs> }) => {
 };
 
 const CreateTimetableView = () => {
-  const methods = useForm<FormInputs>();
+  const methods = useForm<TimetableFormInputs>();
   const {
     register,
     control,
@@ -280,7 +280,7 @@ const CreateTimetableView = () => {
           {!isHourly(reservationType) && (
             <RestrictFrequency control={control} />
           )}
-          <input className="submit-button" type="submit" />
+          <input className="submit-button" type="submit" value={"create"}/>
         </form>
       </FormProvider>
     </div>

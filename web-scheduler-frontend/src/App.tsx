@@ -3,8 +3,29 @@ import './App.css';
 import DefaultView from './components/DefaultView';
 import UserDefaultView from './components/UserDefaultView';
 import CreateTimetableView from './components/CreateTimetableView';
+import { useEffect, useEffectEvent } from 'react';
+
+import type { User } from './@types/user';
+import { useAppDispatch } from './store';
+import { loginUser } from './reducers/currentUserReducer';
 
 const App = () => {
+  const dispatch = useAppDispatch();
+
+  const mountUser = useEffectEvent((user: User) => {
+    dispatch(loginUser(user));
+  });
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem(
+      'loggedWebSchedulerUser'
+    );
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      mountUser(user);
+    }
+  }, []);
+
   return (
     <div>
       <Router>

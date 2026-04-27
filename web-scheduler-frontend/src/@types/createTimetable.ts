@@ -1,4 +1,4 @@
-export interface FormInputs {
+export interface TimetableFormInputs {
   timetableName: string;
   timetableDescription: string;
   reservationType: string;

@@ -10,9 +10,10 @@ usersRouter.get("/", (_req: Request, res: Response) => {
 });
 
 usersRouter.post("/", (req: Request, res: Response) => {
+  // implement bycypt for password
   const user = req.body;
   console.log(user);
-  user.push(user);
+  users.push(user);
 
   res.json(user);
 });

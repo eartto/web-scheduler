@@ -1,17 +1,19 @@
-import config from './utils/config';
-import express from 'express';
+import config from "./utils/config";
+import express from "express";
 const app = express();
 
-import logger from './utils/logger';
-import usersRouter from './routes/users'
-import timetablesRouter from './routes/timetables';
+import logger from "./utils/logger";
+import usersRouter from "./routes/users";
+import loginRouter from "./routes/login";
+import timetablesRouter from "./routes/timetables";
 
-app.use(express.static('build'));
+app.use(express.static("build"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/users', usersRouter);
-app.use('/api/timetables', timetablesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/timetables", timetablesRouter);
 
 app.listen(config.PORT, () => {
   logger.info(`Server running on port ${config.PORT}`);

@@ -1,13 +1,13 @@
 import axios from 'axios';
-import type { timetable } from '../@types/timetable';
 import { URL } from '../constants/urls';
+import type { Timetable } from '../@types/global';
 
-const create = async (timetable: timetable) => {
-  const newTimetable: timetable = {
+const create = async (timetable: Timetable) => {
+  const newTimetable: Timetable = {
     ...timetable,
   };
   const result = await axios.post(URL.TIMETABLE, newTimetable);
-  console.log(result.data)
+  console.log(result.data);
   return result.data;
 };
 

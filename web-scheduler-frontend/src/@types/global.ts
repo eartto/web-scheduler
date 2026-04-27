@@ -1,4 +1,9 @@
-export interface timetable {
+export interface User {
+  token: string;
+  email: string;
+}
+
+export interface Timetable {
   reservationRestrictionDuration?: string;
   reservationRestrictionFrequency?: string;
   reservationType: string;
