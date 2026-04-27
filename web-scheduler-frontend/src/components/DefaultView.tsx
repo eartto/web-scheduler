@@ -194,7 +194,7 @@ const CreateAccountForm = ({ setCreateAccountView }: CreateAccountSetState) => {
             required: 'confirm password',
             validate: (confirmPassword: string) => {
               if (passwordValue != confirmPassword) {
-                return 'passwords do no match';
+                return 'passwords do not match';
               }
             },
           })}
@@ -215,6 +215,7 @@ const CreateAccountForm = ({ setCreateAccountView }: CreateAccountSetState) => {
           render={({ message }) => <p className="error-message">{message}</p>}
         />
         <Notification message={message} />
+        <br />
         <input
           className="submit-button"
           type="submit"
