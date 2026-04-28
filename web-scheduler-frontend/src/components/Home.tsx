@@ -1,11 +1,10 @@
-import './UserDefaultView.css'
+import './Home.css'
 import NaviBar from './NaviBar';
 
-const UserDefaultView = () => {
+const Home = () => {
     
-
     return (
-        <div className="user-default-view">
+        <div className="home">
             <NaviBar />
             <div className='image'>
                 image
@@ -20,4 +19,4 @@ const UserDefaultView = () => {
     )
 }
 
-export default UserDefaultView;
+export default Home;

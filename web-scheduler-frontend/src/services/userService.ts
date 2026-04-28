@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { URL } from '../constants/urls';
-import type { CreateAccountFormInputs } from '../@types/defaultView';
+import type { CreateAccountFormInputs } from '../@types/FrontPage';
 
 const createUser = async (user: CreateAccountFormInputs) => {
   try {

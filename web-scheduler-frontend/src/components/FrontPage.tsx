@@ -3,7 +3,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useEffect, useState } from 'react';
 
-import './DefaultView.css';
+import './FrontPage.css';
 import Header from './Header';
 import SubHeader from './SubHeader';
 import loginService from '../services/loginService';
@@ -17,7 +17,7 @@ import type {
   ButtonPanelProps,
   CreateAccountSetState,
   LoginSetState,
-} from '../@types/defaultView';
+} from '../@types/FrontPage';
 
 const Notification = ({ message }: { message: string | null }) => {
   if (message) {
@@ -51,11 +51,9 @@ const LoginForm = ({ setLoginView }: LoginSetState) => {
 
   const onSubmit = async (data: LoginFormInputs) => {
     const user = await loginService.userLogin(data);
-    console.log(user);
     if (user?.errorMessage) {
       setNotification(user.errorMessage);
     } else if (user !== undefined) {
-      console.log(user);
       dispatch(loginUser(user));
       window.localStorage.setItem(
         'loggedWebSchedulerUser',
@@ -242,7 +240,7 @@ const ButtonsPanel = ({
   );
 };
 
-const DefaultView = () => {
+const FrontPage = () => {
   const [loginView, setLoginView] = useState<boolean>(false);
   const [createAccountView, setCreateAccountView] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -259,7 +257,7 @@ const DefaultView = () => {
   }, [dispatch, navigate]);
 
   return (
-    <div className="default-view">
+    <div className="front-page">
       <Header />
       <SubHeader />
       {!loginView && !createAccountView ? (
@@ -276,4 +274,4 @@ const DefaultView = () => {
   );
 };
 
-export default DefaultView;
+export default FrontPage;

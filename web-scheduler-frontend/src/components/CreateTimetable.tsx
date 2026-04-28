@@ -8,13 +8,18 @@ import { ErrorMessage } from '@hookform/error-message';
 
 import type { Control } from 'react-hook-form';
 
-import './CreateTimetableView.css';
+import './CreateTimetable.css';
 import NaviBar from './NaviBar';
 import { useState } from 'react';
 import timetableService from '../services/timetableService';
-import type { TimetableFormInputs } from '../@types/createTimetable';
+import type { TimetableFormInputs } from '../@types/CreateTimetable';
+import { useNavigate } from 'react-router-dom';
 
-const RestrictDuration = ({ control }: { control: Control<TimetableFormInputs> }) => {
+const RestrictDuration = ({
+  control,
+}: {
+  control: Control<TimetableFormInputs>;
+}) => {
   const { register } = useFormContext();
   const restrictDuration = useWatch({
     control,
@@ -85,7 +90,11 @@ const RestrictDuration = ({ control }: { control: Control<TimetableFormInputs> }
   }
 };
 
-const RestrictFrequency = ({ control }: { control: Control<TimetableFormInputs> }) => {
+const RestrictFrequency = ({
+  control,
+}: {
+  control: Control<TimetableFormInputs>;
+}) => {
   const { register } = useFormContext();
   const restrictFrequency = useWatch({
     control,
@@ -159,7 +168,7 @@ const RestrictFrequency = ({ control }: { control: Control<TimetableFormInputs> 
   }
 };
 
-const CreateTimetableView = () => {
+const CreateTimetable = () => {
   const methods = useForm<TimetableFormInputs>();
   const {
     register,
@@ -167,11 +176,26 @@ const CreateTimetableView = () => {
     handleSubmit,
     formState: { errors },
   } = methods;
+  const navigate = useNavigate();
 
   const reservationType = useWatch({
     control,
     name: 'reservationType',
   });
+
+  const onSubmit = async (data: TimetableFormInputs) => {
+    try {
+      await timetableService.create(data);
+      window.alert(
+        'New timetable successfully created. To view your timetables, select "Timetables" on navigation bar.'
+      );
+      navigate('/home');
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+      }
+    }
+  };
 
   const isHourly = (reservationType: string) => {
     if (reservationType === 'daily') {
@@ -182,13 +206,13 @@ const CreateTimetableView = () => {
   };
 
   return (
-    <div className="create-timetable-view">
+    <div className="create-timetable">
       <NaviBar />
       <h1>Create a new timetable</h1>
       <FormProvider {...methods}>
         <form
           className="timetable-form"
-          onSubmit={handleSubmit((data) => timetableService.create(data))}
+          onSubmit={handleSubmit((data) => onSubmit(data))}
         >
           <label htmlFor="name">Timetable name:</label>
           <br />
@@ -280,11 +304,11 @@ const CreateTimetableView = () => {
           {!isHourly(reservationType) && (
             <RestrictFrequency control={control} />
           )}
-          <input className="submit-button" type="submit" value={"create"}/>
+          <input className="submit-button" type="submit" value={'create'} />
         </form>
       </FormProvider>
     </div>
   );
 };
 
-export default CreateTimetableView;
+export default CreateTimetable;

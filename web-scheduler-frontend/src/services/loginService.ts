@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { URL } from '../constants/urls';
-import type { LoginFormInputs } from '../@types/defaultView';
+import type { LoginFormInputs } from '../@types/FrontPage';
 
 const userLogin = async (user: LoginFormInputs) => {
   try {
