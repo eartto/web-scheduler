@@ -5,15 +5,15 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-
-import type { Control } from 'react-hook-form';
-
 import './CreateTimetable.css';
 import NaviBar from './NaviBar';
 import { useState } from 'react';
 import timetableService from '../services/timetableService';
-import type { TimetableFormInputs } from '../@types/CreateTimetable';
 import { useNavigate } from 'react-router-dom';
+
+import type { Control } from 'react-hook-form';
+import type { TimetableFormInputs } from '../@types/CreateTimetable';
+
 
 const RestrictDuration = ({
   control,

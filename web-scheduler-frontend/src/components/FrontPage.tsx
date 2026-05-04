@@ -84,6 +84,10 @@ const LoginForm = ({ setLoginView }: LoginSetState) => {
           placeholder="email"
           {...register('email', {
             required: 'email required',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'Please enter a valid email address',
+            },
           })}
         />
         <br />
@@ -166,6 +170,10 @@ const CreateAccountForm = ({ setCreateAccountView }: CreateAccountSetState) => {
           placeholder="email"
           {...register('email', {
             required: 'email required',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'please enter a valid email address',
+            },
           })}
         />
         <br />

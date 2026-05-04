@@ -1,4 +1,5 @@
 .sub-header {
   color: black;
   margin: 14px;
+  user-select: none;
 }

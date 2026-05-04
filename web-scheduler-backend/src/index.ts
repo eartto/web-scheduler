@@ -1,4 +1,5 @@
-import config from "./utils/config";
+import { PORT } from "./utils/config";
+import { connectToDatabase } from "../src/utils/db";
 import express from "express";
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/timetables", timetablesRouter);
 
-app.listen(config.PORT, () => {
-  logger.info(`Server running on port ${config.PORT}`);
+app.listen(PORT, async () => {
+  await connectToDatabase();
+  logger.info(`Server running on port ${PORT}`);
 });

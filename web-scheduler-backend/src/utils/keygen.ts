@@ -1,5 +1,4 @@
-const rootkey = process.env.ROOTKEY;
-const rootId = process.env.ROOTID;
+import { ROOTKEY, ROOTID } from "./config";
 
 const numberConverter = (number: string) => {
   return number[1].toString();
@@ -19,9 +18,9 @@ const keyIdGen = () => {
   if (Number(base) > 36) {
     const indexes = base.split("");
     indexes.forEach((index) => {
-      keyId += rootId![Number(index)];
+      keyId += ROOTID![Number(index)];
     });
-    keyId += rootId![numeral];
+    keyId += ROOTID![numeral];
   }
   return keyId;
 };
@@ -39,7 +38,7 @@ const generateKey = () => {
     if (Number(z.slice(x, y)) > 25) {
       key += numberConverter(z.slice(x, y));
     } else {
-      key += rootkey![Number(z.slice(x, y))];
+      key += ROOTKEY![Number(z.slice(x, y))];
     }
     x = x + 2;
     y = y + 2;
