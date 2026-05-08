@@ -4,8 +4,6 @@ export interface User {
 }
 
 export interface Timetable {
-  reservationRestrictionDuration?: string;
-  reservationRestrictionFrequency?: string;
   reservationType: string;
   restrictionDuration?: string;
   restrictionFrequency?: string;
