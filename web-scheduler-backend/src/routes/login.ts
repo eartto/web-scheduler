@@ -16,7 +16,6 @@ loginRouter.post("/", async (req: Request, res: Response) => {
         email: body.email,
       },
     });
-    console.log(user?.dataValues);
 
     const passwordCorrect =
       user === null
@@ -29,11 +28,10 @@ loginRouter.post("/", async (req: Request, res: Response) => {
       });
     } else {
       const userToken = {
-        id: user.dataValues.id,
-        email: user.dataValues.email,
+        email: body.email,
       };
       const token = jwt.sign(userToken, JWT_SECRET!);
-      res.status(200).send({ token, email: body.email, });
+      res.status(200).send({ token, email: body.email });
     }
   } catch (error) {
     if (error instanceof Error) {
