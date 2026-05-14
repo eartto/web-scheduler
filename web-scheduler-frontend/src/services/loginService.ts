@@ -2,6 +2,8 @@ import axios from 'axios';
 import { URL } from '../constants/urls';
 import type { LoginFormInputs } from '../@types/FrontPage';
 
+axios.defaults.withCredentials = true;
+
 const userLogin = async (user: LoginFormInputs) => {
   try {
     const result = await axios.post(URL.LOGIN, user);

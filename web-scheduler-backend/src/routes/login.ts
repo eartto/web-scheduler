@@ -31,6 +31,25 @@ loginRouter.post("/", async (req: Request, res: Response) => {
         email: body.email,
       };
       const token = jwt.sign(userToken, JWT_SECRET!);
+
+      req.session.regenerate((error) => {
+        if (error) {
+          logger.error(error);
+          throw new Error("failed to regenerate the session");
+        }
+      });
+
+      req.session.user = {
+        id: user.dataValues.id,
+        email: user.dataValues.email,
+      };
+      req.session.save((error) => {
+        if (error) {
+          logger.error(error);
+          throw new Error("failed to create a session");
+        }
+      });
+      console.log(req.session.id);
       res.status(200).send({ token, email: body.email });
     }
   } catch (error) {

@@ -12,9 +12,13 @@ timetablesRouter.get("/", (_req: Request, res: Response) => {
 
 timetablesRouter.post("/", (req: Request, res: Response) => {
   // IMPLEMENT n IN THE KEYGEN WHEN DB IS IMPLEMENTED
+  const cookie = req.session.cookie;
+  console.log(cookie);
+  console.log(req.session);
+  console.log(req.session.id);
   const key = keygen.generateKey();
   const timetable = { ...req.body, key };
-  console.log(timetable)
+  console.log(timetable);
   timetables.push(timetable);
 
   res.json(timetable);

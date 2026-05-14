@@ -15,7 +15,7 @@ const currentUserSlice = createSlice({
       const currentUser = action.payload;
       currentUser.loggedIn = true;
       state = currentUser;
-      return currentUser;
+      return state;
     },
     unsetUser: (state) => {
       state.token = null;

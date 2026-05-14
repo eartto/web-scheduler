@@ -2,6 +2,8 @@ import axios from 'axios';
 import { URL } from '../constants/urls';
 import type { Timetable } from '../@types/global';
 
+axios.defaults.withCredentials = true;
+
 const create = async (timetable: Timetable) => {
   const newTimetable: Timetable = {
     ...timetable,
