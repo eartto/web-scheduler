@@ -2,8 +2,7 @@ import { createSlice, type Dispatch } from '@reduxjs/toolkit';
 import type { User } from '../@types/global';
 
 const initialState = {
-  loggedIn: false,
-  token: null,
+  id: null,
   email: null,
 };
 
@@ -12,13 +11,13 @@ const currentUserSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const currentUser = action.payload;
-      currentUser.loggedIn = true;
-      state = currentUser;
+      const user = action.payload;
+      state.id = user.id;
+      state.email = user.email;
       return state;
     },
     unsetUser: (state) => {
-      state.token = null;
+      state.id = null;
       state.email = null;
       return state;
     },
@@ -27,6 +26,7 @@ const currentUserSlice = createSlice({
 
 export const loginUser = (user: User) => {
   return (dispatch: Dispatch) => {
+    console.log('hey')
     dispatch(setUser(user));
   };
 };

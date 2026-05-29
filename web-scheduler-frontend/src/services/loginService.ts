@@ -7,9 +7,7 @@ axios.defaults.withCredentials = true;
 const userLogin = async (user: LoginFormInputs) => {
   try {
     const result = await axios.post(URL.LOGIN, user);
-    console.log(result.data);
-    const login = result.data;
-    return login;
+    return result.data;
   } catch (error) {
     if (error instanceof Error) {
       const login = {

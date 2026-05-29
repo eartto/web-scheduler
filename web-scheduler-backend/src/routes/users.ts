@@ -12,6 +12,19 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
   res.json(users);
 });
 
+usersRouter.get("/:id", async (req, res) => {
+  try {
+    console.log(req.params);
+    const user = await User.findByPk(req.params.id);
+    res.json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(error);
+      res.status(400);
+    }
+  }
+});
+
 usersRouter.post("/", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;

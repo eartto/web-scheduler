@@ -19,7 +19,16 @@ export interface CreateAccountSetState {
   setCreateAccountView: Dispatch<SetStateAction<boolean>>;
 }
 
+export interface LoadingSetState {
+  setLoadingView: Dispatch<SetStateAction<boolean>>;
+}
+
 export interface ButtonPanelProps {
   setLoginView: Dispatch<SetStateAction<boolean>>;
   setCreateAccountView: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface LoginFormProps {
+  setLoadingView: Dispatch<SetStateAction<boolean>>;
+  setLoginView: Dispatch<SetStateAction<boolean>>;
 }

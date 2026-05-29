@@ -11,13 +11,13 @@ User.init(
       autoIncrement: true,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       unique: true,
       allowNull: false,
       validate: { isEmail: true },
     },
     passwordHash: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },

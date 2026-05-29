@@ -1,7 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import './FrontPage.css';
 import Header from './Header';
@@ -9,15 +8,16 @@ import SubHeader from './SubHeader';
 import loginService from '../services/loginService';
 import userService from '../services/userService';
 
-import { useAppDispatch } from '../store';
-import { loginUser } from '../reducers/currentUserReducer';
 import type {
   LoginFormInputs,
   CreateAccountFormInputs,
   ButtonPanelProps,
   CreateAccountSetState,
-  LoginSetState,
+  LoginFormProps,
 } from '../@types/FrontPage';
+import LoadingLogin from './LoadingLogin';
+import { useAppDispatch } from '../store';
+import { loginUser } from '../reducers/currentUserReducer';
 
 const Notification = ({ message }: { message: string | null }) => {
   if (message) {
@@ -31,16 +31,15 @@ const Notification = ({ message }: { message: string | null }) => {
   }
 };
 
-const LoginForm = ({ setLoginView }: LoginSetState) => {
+const LoginForm = (props: LoginFormProps) => {
   const methods = useForm<LoginFormInputs>();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = methods;
-  const [message, setMessage] = useState<string | null>(null);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [message, setMessage] = useState<string | null>(null);
 
   const setNotification = (message: string | null) => {
     setMessage(message);
@@ -54,12 +53,8 @@ const LoginForm = ({ setLoginView }: LoginSetState) => {
     if (user?.errorMessage) {
       setNotification(user.errorMessage);
     } else if (user !== undefined) {
-      dispatch(loginUser(user));
-      window.localStorage.setItem(
-        'loggedWebSchedulerUser',
-        JSON.stringify(user)
-      );
-      navigate('/home');
+      dispatch(loginUser(data));
+      props.setLoadingView(true);
     }
   };
 
@@ -71,7 +66,7 @@ const LoginForm = ({ setLoginView }: LoginSetState) => {
       >
         <input
           className="back-button"
-          onClick={() => setLoginView(false)}
+          onClick={() => props.setLoginView(false)}
           type="button"
           value={'back'}
         />
@@ -251,33 +246,28 @@ const ButtonsPanel = ({
 const FrontPage = () => {
   const [loginView, setLoginView] = useState<boolean>(false);
   const [createAccountView, setCreateAccountView] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem(
-      'loggedWebSchedulerUser'
-    );
-    if (loggedUserJSON) {
-      dispatch(loginUser(JSON.parse(loggedUserJSON)));
-      navigate('/home');
-    }
-  }, [dispatch, navigate]);
+  const [loadingView, setLoadingView] = useState<boolean>(false);
 
   return (
     <div className="front-page">
       <Header />
       <SubHeader />
-      {!loginView && !createAccountView ? (
+      {!loginView && !createAccountView && !loadingView ? (
         <ButtonsPanel
           setLoginView={setLoginView}
           setCreateAccountView={setCreateAccountView}
         />
       ) : null}
-      {loginView ? <LoginForm setLoginView={setLoginView} /> : null}
-      {createAccountView ? (
+      {loginView && !loadingView ? (
+        <LoginForm
+          setLoginView={setLoginView}
+          setLoadingView={setLoadingView}
+        />
+      ) : null}
+      {createAccountView && !loadingView ? (
         <CreateAccountForm setCreateAccountView={setCreateAccountView} />
       ) : null}
+      {loadingView ? <LoadingLogin /> : null}
     </div>
   );
 };

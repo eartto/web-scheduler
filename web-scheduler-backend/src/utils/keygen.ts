@@ -1,3 +1,4 @@
+import Timetable from "../models/timetable";
 import { ROOTKEY, ROOTID } from "./config";
 
 const numberConverter = (number: string) => {
@@ -9,8 +10,9 @@ ensure that each key generated is unique. The number is then converted
 into base 36 system of randomized string consisting of numbers 0-9 and 
 lowercase alphabet characters. This is done to considerably shorten 
 the id part of the key. */
-const keyIdGen = () => {
-  const n = 5000;
+const keyIdGen = async () => {
+  const n = await Timetable.count({});
+  console.log(n)
   let keyId = "";
   const base = (n / 36).toString().split(".")[0];
   const numeral = n % 36;
@@ -25,7 +27,7 @@ const keyIdGen = () => {
   return keyId;
 };
 
-const generateKey = () => {
+const generateKey = async () => {
   const date = Date.now().toString();
   let z = date.slice(-6).split("").reverse().join("");
   let key = "";
@@ -43,7 +45,7 @@ const generateKey = () => {
     x = x + 2;
     y = y + 2;
   }
-  const keyId = keyIdGen();
+  const keyId = await keyIdGen();
   key = keyId + key;
   return key;
 };

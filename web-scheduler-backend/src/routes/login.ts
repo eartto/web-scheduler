@@ -1,12 +1,25 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import express from "express";
 import { Request, Response } from "express";
-import { JWT_SECRET } from "../utils/config";
 import logger from "../utils/logger";
 import User from "../models/user";
 
 const loginRouter = express.Router();
+
+loginRouter.get("/", async (req: Request, res: Response) => {
+  try {
+    if (req.session.user) {
+      res.send(req.session.user);
+    } else {
+      res.status(401);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      logger.error(error);
+      res.status(401);
+    }
+  }
+});
 
 loginRouter.post("/", async (req: Request, res: Response) => {
   try {
@@ -27,35 +40,35 @@ loginRouter.post("/", async (req: Request, res: Response) => {
         error: "invalid email or password",
       });
     } else {
-      const userToken = {
-        email: body.email,
-      };
-      const token = jwt.sign(userToken, JWT_SECRET!);
+      const regenerateSession = async () => {
+        req.session.regenerate((error) => {
+          if (error) {
+            logger.error(error);
+            throw new Error("failed to regenerate the session");
+          }
+        });
 
-      req.session.regenerate((error) => {
-        if (error) {
-          logger.error(error);
-          throw new Error("failed to regenerate the session");
-        }
-      });
-
-      req.session.user = {
-        id: user.dataValues.id,
-        email: user.dataValues.email,
+        req.session.user = {
+          id: user.dataValues.id,
+          email: user.dataValues.email,
+        };
+        req.session.save((error) => {
+          if (error) {
+            logger.error(error);
+            throw new Error("failed to create a session");
+          }
+        });
+        console.log("session regenerated");
       };
-      req.session.save((error) => {
-        if (error) {
-          logger.error(error);
-          throw new Error("failed to create a session");
-        }
-      });
-      console.log(req.session.id);
-      res.status(200).send({ token, email: body.email });
+
+      await regenerateSession();
+      console.log(req.session.user);
+      res.status(200).send({ email: body.email });
     }
   } catch (error) {
     if (error instanceof Error) {
       logger.error(error);
-      res.status(400);
+      res.status(401);
     }
   }
 });

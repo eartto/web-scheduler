@@ -3,6 +3,7 @@ import MiniHeader from './MiniHeader';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useTypedSelector } from '../store';
 import { unsetUser } from '../reducers/currentUserReducer';
+import logoutService from '../services/logoutService';
 
 const NaviBar = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +14,7 @@ const NaviBar = () => {
 
   const handleLogout = () => {
     window.localStorage.clear();
+    logoutService.userLogout()
     dispatch(unsetUser());
     navigate('/');
   };

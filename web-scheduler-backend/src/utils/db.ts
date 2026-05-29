@@ -7,6 +7,7 @@ import {
   DATABASE_PORT,
 } from "./config";
 
+
 export const sequelize = new Sequelize({
   dialect: "postgres",
   database: DATABASE_NAME,
@@ -14,6 +15,7 @@ export const sequelize = new Sequelize({
   password: DATABASE_PASSWORD,
   host: DATABASE_HOST,
   port: DATABASE_PORT,
+  storage: "./session.postgres",
   dialectOptions: {
     ssl: {
       require: true,
@@ -21,6 +23,8 @@ export const sequelize = new Sequelize({
     },
   },
 });
+
+
 
 export const connectToDatabase = async () => {
   try {

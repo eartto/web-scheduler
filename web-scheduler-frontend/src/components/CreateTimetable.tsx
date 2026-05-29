@@ -7,13 +7,15 @@ import {
 import { ErrorMessage } from '@hookform/error-message';
 import './CreateTimetable.css';
 import NaviBar from './NaviBar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import timetableService from '../services/timetableService';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 import type { Control } from 'react-hook-form';
 import type { TimetableFormInputs } from '../@types/CreateTimetable';
-
+import { useTypedSelector } from '../store';
+import Loading from './Loading';
 
 const RestrictDuration = ({
   control,
@@ -176,7 +178,13 @@ const CreateTimetable = () => {
     handleSubmit,
     formState: { errors },
   } = methods;
+  const userAuth = useAuth();
   const navigate = useNavigate();
+  const currentUser = useTypedSelector((user) => user.currentUser);
+
+  useEffect(() => {
+    userAuth();
+  });
 
   const reservationType = useWatch({
     control,
@@ -205,110 +213,124 @@ const CreateTimetable = () => {
     }
   };
 
-  return (
-    <div className="create-timetable">
-      <NaviBar />
-      <h1>Create a new timetable</h1>
-      <FormProvider {...methods}>
-        <form
-          className="timetable-form"
-          onSubmit={handleSubmit((data) => onSubmit(data))}
-        >
-          <label htmlFor="name">Timetable name:</label>
-          <br />
-          <input
-            className="name-input"
-            autoFocus
-            id="name"
-            placeholder="name"
-            {...register('timetableName', {
-              required: 'name required',
-              maxLength: {
-                value: 40,
-                message: 'name exceeds the character limit',
-              },
-            })}
-          />
-          <br />
-          <ErrorMessage
-            errors={errors}
-            name="timetableName"
-            render={({ message }) => <p className="error-message">{message}</p>}
-          />
-          <label htmlFor="description">description:</label>
-          <br />
-          <textarea
-            className="description-input"
-            id="description"
-            placeholder="description"
-            maxLength={175}
-            {...register('timetableDescription', {
-              maxLength: {
-                value: 175,
-                message: 'description exceeds the character limit',
-              },
-            })}
-          />
-          <br />
-          <fieldset className="type-input">
-            <legend> reservation type</legend>
-            <div>
-              <input
-                type="radio"
-                defaultChecked
-                {...register('reservationType', {
-                  required: 'reservation type required',
-                })}
-                id="hourly"
-                value={'hourly'}
-              />
-              <label htmlFor="hourly">hourly</label>
-              <input
-                type="radio"
-                {...register('reservationType', {
-                  required: 'reservation type required',
-                })}
-                id="daily"
-                value={'daily'}
-              />
-              <label htmlFor="daily">daily</label>
-            </div>
-          </fieldset>
-          <ErrorMessage
-            errors={errors}
-            name="reservationType"
-            render={({ message }) => <p className="error-message">{message}</p>}
-          />
-          <fieldset className="restriction-input">
-            <legend> reservation restrictions</legend>
-            <div>
-              <input
-                type="checkbox"
-                {...register('reservationRestrictionDuration')}
-                id="limitDuration"
-                value={'limitDuration'}
-              />
-              <label htmlFor="limitDuration">limit duration</label>
-              <input
-                type="checkbox"
-                {...register('reservationRestrictionFrequency')}
-                id="limitFrequency"
-                value={'limitFrequency'}
-              />
-              <label htmlFor="limitFrequency">limit frequency</label>
-            </div>
-          </fieldset>
-          {isHourly(reservationType) && <RestrictDuration control={control} />}
-          {!isHourly(reservationType) && <RestrictDuration control={control} />}
-          {isHourly(reservationType) && <RestrictFrequency control={control} />}
-          {!isHourly(reservationType) && (
-            <RestrictFrequency control={control} />
-          )}
-          <input className="submit-button" type="submit" value={'create'} />
-        </form>
-      </FormProvider>
-    </div>
-  );
+  if (!currentUser.email) {
+    return <Loading />;
+  } else {
+    return (
+      <div className="create-timetable">
+        <NaviBar />
+        <h1>Create a new timetable</h1>
+        <FormProvider {...methods}>
+          <form
+            className="timetable-form"
+            onSubmit={handleSubmit((data) => onSubmit(data))}
+          >
+            <label htmlFor="name">Timetable name:</label>
+            <br />
+            <input
+              className="name-input"
+              autoFocus
+              id="name"
+              placeholder="name"
+              {...register('timetableName', {
+                required: 'name required',
+                maxLength: {
+                  value: 40,
+                  message: 'name exceeds the character limit',
+                },
+              })}
+            />
+            <br />
+            <ErrorMessage
+              errors={errors}
+              name="timetableName"
+              render={({ message }) => (
+                <p className="error-message">{message}</p>
+              )}
+            />
+            <label htmlFor="description">description:</label>
+            <br />
+            <textarea
+              className="description-input"
+              id="description"
+              placeholder="description"
+              maxLength={175}
+              {...register('timetableDescription', {
+                maxLength: {
+                  value: 175,
+                  message: 'description exceeds the character limit',
+                },
+              })}
+            />
+            <br />
+            <fieldset className="type-input">
+              <legend> reservation type</legend>
+              <div>
+                <input
+                  type="radio"
+                  defaultChecked
+                  {...register('reservationType', {
+                    required: 'reservation type required',
+                  })}
+                  id="hourly"
+                  value={'hourly'}
+                />
+                <label htmlFor="hourly">hourly</label>
+                <input
+                  type="radio"
+                  {...register('reservationType', {
+                    required: 'reservation type required',
+                  })}
+                  id="daily"
+                  value={'daily'}
+                />
+                <label htmlFor="daily">daily</label>
+              </div>
+            </fieldset>
+            <ErrorMessage
+              errors={errors}
+              name="reservationType"
+              render={({ message }) => (
+                <p className="error-message">{message}</p>
+              )}
+            />
+            <fieldset className="restriction-input">
+              <legend> reservation restrictions</legend>
+              <div>
+                <input
+                  type="checkbox"
+                  {...register('reservationRestrictionDuration')}
+                  id="limitDuration"
+                  value={'limitDuration'}
+                />
+                <label htmlFor="limitDuration">limit duration</label>
+                <input
+                  type="checkbox"
+                  {...register('reservationRestrictionFrequency')}
+                  id="limitFrequency"
+                  value={'limitFrequency'}
+                />
+                <label htmlFor="limitFrequency">limit frequency</label>
+              </div>
+            </fieldset>
+            {isHourly(reservationType) && (
+              <RestrictDuration control={control} />
+            )}
+            {!isHourly(reservationType) && (
+              <RestrictDuration control={control} />
+            )}
+            {isHourly(reservationType) && (
+              <RestrictFrequency control={control} />
+            )}
+            {!isHourly(reservationType) && (
+              <RestrictFrequency control={control} />
+            )}
+            <input className="submit-button" type="submit" value={'create'} />
+          </form>
+        </FormProvider>
+      </div>
+    );
+  }
 };
 
 export default CreateTimetable;

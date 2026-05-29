@@ -1,0 +1,27 @@
+.login-prompt {
+margin: 200px 
+}
+
+.login-prompt-text {
+  color: black;
+  font-size: 20px;
+  margin: 14px;
+  user-select: none;
+}
+
+.redirect-button {
+  background-color: #e64d1f;
+  border: 2px solid #919191;
+  color: rgb(248, 248, 248);
+  padding: 4px 10px 4px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  cursor: pointer;
+  border-radius: 115px;
+}
+.redirect-button:hover {
+  background-color: #eb6b44;
+  border: 2px solid #dddddd;
+}
