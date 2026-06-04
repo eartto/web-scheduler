@@ -26,20 +26,12 @@ Timetable.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    reservationRestrictionDuration: {
-      type: DataTypes.BOOLEAN || DataTypes.TEXT,
-      allowNull: false,
-    },
-    reservationRestrictionFrequency: {
-      type: DataTypes.BOOLEAN || DataTypes.TEXT,
-      allowNull: false,
-    },
     restrictionDuration: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     restrictionFrequency: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
   },
@@ -49,7 +41,5 @@ Timetable.init(
     modelName: "timetable",
   },
 );
-
-Timetable.sync();
 
 export default Timetable;

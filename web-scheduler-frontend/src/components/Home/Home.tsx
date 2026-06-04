@@ -1,11 +1,13 @@
+import { useAuth } from '../../hooks/useAuth';
+import { useTypedSelector } from '../../store';
+import Loading from '../Loading';
+import NaviBar from '../NaviBar';
 import './Home.css';
-import NaviBar from './NaviBar';
-import Loading from './Loading';
+
 
 import { useEffect } from 'react';
 
-import { useAuth } from '../hooks/useAuth';
-import { useTypedSelector } from '../store';
+
 
 const Home = () => {
   const currentUser = useTypedSelector((user) => user.currentUser);
@@ -13,6 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     authUser();
+    console.log(currentUser)
   }, [authUser]);
 
   if (!currentUser.email) {

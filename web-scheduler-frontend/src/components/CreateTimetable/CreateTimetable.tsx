@@ -3,19 +3,18 @@ import {
   useForm,
   useFormContext,
   useWatch,
+  type Control,
 } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import './CreateTimetable.css';
-import NaviBar from './NaviBar';
-import { useEffect, useState } from 'react';
-import timetableService from '../services/timetableService';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-
-import type { Control } from 'react-hook-form';
-import type { TimetableFormInputs } from '../@types/CreateTimetable';
-import { useTypedSelector } from '../store';
-import Loading from './Loading';
+import type { TimetableFormInputs } from '../../@types/CreateTimetable';
+import { useAuth } from '../../hooks/useAuth';
+import timetableService from '../../services/timetableService';
+import { useTypedSelector } from '../../store';
+import Loading from '../Loading';
+import NaviBar from '../NaviBar';
 
 const RestrictDuration = ({
   control,

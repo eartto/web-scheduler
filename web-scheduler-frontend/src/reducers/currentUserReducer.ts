@@ -1,9 +1,13 @@
-import { createSlice, type Dispatch } from '@reduxjs/toolkit';
-import type { User } from '../@types/global';
+import { createAsyncThunk, createSlice, type Dispatch } from '@reduxjs/toolkit';
+import type { User, CurrentUserState } from '../@types/global';
+import timetableService from '../services/timetableService';
 
-const initialState = {
+const initialState: CurrentUserState = {
   id: null,
   email: null,
+  timetables: [],
+  loading: 'idle',
+  error: null,
 };
 
 const currentUserSlice = createSlice({
@@ -22,11 +26,32 @@ const currentUserSlice = createSlice({
       return state;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTimetables.pending, (state) => {
+      state.loading = 'pending';
+    });
+    builder.addCase(fetchTimetables.fulfilled, (state, action) => {
+      state.loading = 'succeeded';
+      state.timetables = action.payload;
+    });
+    builder.addCase(fetchTimetables.rejected, (state, action) => {
+      state.loading = 'failed';
+      state.error = action.error.message;
+    });
+  },
 });
+
+export const fetchTimetables = createAsyncThunk(
+  'currentUser/fetchTimetables',
+  async (id: string) => {
+    const response = await timetableService.getAllByUserId(id);
+    return response;
+  }
+);
 
 export const loginUser = (user: User) => {
   return (dispatch: Dispatch) => {
-    console.log('hey')
+    console.log('hey');
     dispatch(setUser(user));
   };
 };

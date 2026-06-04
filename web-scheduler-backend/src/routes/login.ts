@@ -63,7 +63,7 @@ loginRouter.post("/", async (req: Request, res: Response) => {
 
       await regenerateSession();
       console.log(req.session.user);
-      res.status(200).send({ email: body.email });
+      res.status(200).send({ email: body.email, id: user.dataValues.id });
     }
   } catch (error) {
     if (error instanceof Error) {

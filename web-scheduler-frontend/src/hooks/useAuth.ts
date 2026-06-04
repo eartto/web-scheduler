@@ -13,6 +13,7 @@ export const useAuth = () => {
     if (response.authError) {
       navigate('/loginprompt');
     } else if (currentUser.email === null) {
+      console.log('hoyyyyy')
       dispatch(loginUser(response));
     } else {
       return;

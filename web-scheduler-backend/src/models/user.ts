@@ -28,6 +28,4 @@ User.init(
   },
 );
 
-User.sync();
-
 export default User;
