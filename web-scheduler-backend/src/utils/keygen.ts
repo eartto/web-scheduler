@@ -12,16 +12,19 @@ lowercase alphabet characters. This is done to considerably shorten
 the id part of the key. */
 const keyIdGen = async () => {
   const n = await Timetable.count({});
-  console.log(n)
   let keyId = "";
   const base = (n / 36).toString().split(".")[0];
   const numeral = n % 36;
-
   if (Number(base) > 36) {
     const indexes = base.split("");
     indexes.forEach((index) => {
       keyId += ROOTID![Number(index)];
     });
+    keyId += ROOTID![numeral];
+  } else if (Number(base) > 0) {
+    keyId += ROOTID![Number(base)];
+    keyId += ROOTID![numeral];
+  } else {
     keyId += ROOTID![numeral];
   }
   return keyId;
