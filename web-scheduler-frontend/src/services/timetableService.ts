@@ -17,11 +17,9 @@ const create = async (timetable: Timetable) => {
   return result.data;
 };
 
-const getAllByUserId = async (id: string) => {
-  console.log(`${URL.TIMETABLE}/${id}`);
+const findById = async (id: string) => {
   const response = await axios.get(`${URL.TIMETABLE}/${id}`);
-  console.log(response.data);
   return response.data;
 };
 
-export default { create, getAllByUserId };
+export default { create, findById };

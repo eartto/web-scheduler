@@ -5,7 +5,7 @@ import FrontPage from './components/FrontPage';
 import Home from './components/Home';
 import LoginPrompt from './components/LoginPrompt';
 import Timetables from './components/Timetables';
-
+import Timetable from './components/Timetable';
 
 const App = () => {
   return (
@@ -15,6 +15,7 @@ const App = () => {
           <Route path="/" element={<FrontPage />} />
           <Route path="/home" element={<Home />} />
           <Route path="/timetables/:id" element={<Timetables />} />
+          <Route path="/timetable/:id" element={<Timetable />} />
           <Route path="/createtimetable" element={<CreateTimetable />} />
           <Route path="/loginprompt" element={<LoginPrompt />} />
         </Routes>

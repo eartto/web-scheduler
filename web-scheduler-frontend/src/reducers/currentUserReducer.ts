@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, type Dispatch } from '@reduxjs/toolkit';
 import type { User, CurrentUserState } from '../@types/global';
-import timetableService from '../services/timetableService';
+import userService from '../services/userService';
 
 const initialState: CurrentUserState = {
   id: null,
@@ -18,40 +18,43 @@ const currentUserSlice = createSlice({
       const user = action.payload;
       state.id = user.id;
       state.email = user.email;
+      state.timetables = user.timetables;
       return state;
     },
     unsetUser: (state) => {
       state.id = null;
       state.email = null;
+      state.timetables = undefined;
       return state;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTimetables.pending, (state) => {
+    builder.addCase(fetchUser.pending, (state) => {
       state.loading = 'pending';
     });
-    builder.addCase(fetchTimetables.fulfilled, (state, action) => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.loading = 'succeeded';
-      state.timetables = action.payload;
+      state.id = action.payload.id;
+      state.email = action.payload.email;
+      state.timetables = action.payload.timetables;
     });
-    builder.addCase(fetchTimetables.rejected, (state, action) => {
+    builder.addCase(fetchUser.rejected, (state, action) => {
       state.loading = 'failed';
       state.error = action.error.message;
     });
   },
 });
 
-export const fetchTimetables = createAsyncThunk(
-  'currentUser/fetchTimetables',
+export const fetchUser = createAsyncThunk(
+  'currentUser/fetchUser',
   async (id: string) => {
-    const response = await timetableService.getAllByUserId(id);
+    const response = await userService.findUserById(id);
     return response;
   }
 );
 
 export const loginUser = (user: User) => {
   return (dispatch: Dispatch) => {
-    console.log('hey');
     dispatch(setUser(user));
   };
 };

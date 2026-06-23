@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 
 import models from "../models";
 import logger from "../utils/logger";
+import Timetable from "../models/timetable";
 
 const usersRouter = express.Router();
 
@@ -19,7 +20,17 @@ usersRouter.get("/", async (_req: Request, res: Response) => {
 usersRouter.get("/:id", async (req, res) => {
   try {
     console.log(req.params);
-    const user = await models.User.findByPk(req.params.id);
+    const user = await models.User.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        model: Timetable,
+      },
+      attributes: ["id", "email"],
+    });
+    console.log("HEYYO");
+    console.log(user?.dataValues);
     res.json(user);
   } catch (error) {
     if (error instanceof Error) {

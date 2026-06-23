@@ -3,10 +3,7 @@ import { useTypedSelector } from '../../store';
 import Loading from '../Loading';
 import NaviBar from '../NaviBar';
 import './Home.css';
-
-
 import { useEffect } from 'react';
-
 
 
 const Home = () => {

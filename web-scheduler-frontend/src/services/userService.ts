@@ -18,4 +18,19 @@ const createUser = async (user: CreateAccountFormInputs) => {
   }
 };
 
-export default { createUser };
+const findUserById = async (id: string) => {
+  try {
+    const result = await axios.get(`${URL.USER}/${id}`);
+    console.log(result.data);
+    return result.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      const result = {
+        errorMessage: 'user not found',
+      };
+      return result;
+    }
+  }
+};
+
+export default { createUser, findUserById };

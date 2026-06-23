@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useTypedSelector } from '../store';
 import { loginUser } from '../reducers/currentUserReducer';
 import authSessionService from '../services/authSessionService';
+import userService from '../services/userService';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -13,8 +14,8 @@ export const useAuth = () => {
     if (response.authError) {
       navigate('/loginprompt');
     } else if (currentUser.email === null) {
-      console.log('hoyyyyy')
-      dispatch(loginUser(response));
+      const user = await userService.findUserById(response.id);
+      dispatch(loginUser(user));
     } else {
       return;
     }

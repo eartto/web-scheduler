@@ -16,17 +16,13 @@ timetablesRouter.get("/", async (_req: Request, res: Response) => {
   }
 });
 
-timetablesRouter.get("/:userId", async (req, res) => {
+timetablesRouter.get("/:id", async (req, res) => {
   try {
-    console.log('ID')
-    console.log(req.params.userId);
-    const timetables = await models.Timetable.findAll({
-      where: {
-        userId: req.params.userId,
-      },
-    });
-    console.log(timetables)
-    res.json(timetables);
+    console.log("ID");
+    console.log(req.params.id);
+    const timetable = await models.Timetable.findByPk(req.params.id);
+    console.log(timetable)
+    res.json(timetable);
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).end();

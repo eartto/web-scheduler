@@ -5,7 +5,6 @@
 
 .timetables-list-frame {
   justify-self: center;
-  padding: 2px 100px 2px 100px;
   height: 600px;
   width: 500px;
   border: 2px solid #a4a4a4;
@@ -18,14 +17,14 @@
 }
 
 .timetable-button {
-  background-color: #dddddd;
+  background-color: #dfe4ed;
   border: 2px solid #919191;
   color: rgb(0, 0, 0);
   padding: 12px 22px 12px 22px;
   text-align: left;
   text-decoration: none;
   display: inline-block;
-  width: 350px;
+  width: 400px;
   height: 50px;
   font-size: 19px;
   cursor: pointer;
@@ -33,6 +32,6 @@
   border-radius: 10px;
 }
 .timetable-button:hover {
-  background-color: #ffffff;
-  border: 2px solid #000000;
+  background-color: #e8e9eb;
+  border: 2px solid #919191;
 }
