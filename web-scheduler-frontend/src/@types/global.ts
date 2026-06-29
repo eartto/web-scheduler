@@ -18,4 +18,13 @@ export interface Timetable {
   reservationType: string;
   restrictionDuration?: number;
   restrictionFrequency?: number;
+  key?: string;
+}
+
+export interface DataPromise {
+  dataPromise: Promise<TimetableData>;
+}
+
+export interface TimetableData {
+  data: Timetable;
 }
